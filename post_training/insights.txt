@@ -1,0 +1,63 @@
+NÃO USO DE SOFTMAX / SIGMOID
+
+FUNCIONOU: 
+USO DE GMM:
+SEM CRF - DATASET: FULL SPLIT 70-30 - SEGNET - NDVI
+
+RESULTADO F1 SCORE: 
+BENCHMARK = 77% 
+NUMERO DE GAUSEANAS:
+- 2 GAUS = 2%
+- 3 GAUS = 7%
+- 4 GAUS = 20%
+- 5 GAUS = 21%
+- 6 GAUS = 23%
+
+PROCEDIMENTO PARA USO DO GMM:
+- TENHO LOGITS DE TREINO E DE TESTE
+- NO LOGITS DE TREINO (SÃO LOGITS DA CLASSE POSITIVA). EU INVERTO O SINAL DOS LOGITS PARA OBTER OS LOGITS CLASSE NEGATIVA
+- OBTENHO ENTÃO, SEPARADAMENTE, AS LIKEHOODS E OS PARAMETROS DOS LOGITS DE TREINO TANTO PARA A CLASSE POSITIVA QUANTO PARA A CLASSE NEGATIVA
+- COM OS LOGITS DE TESTE, EU OS USO PARA OBTER AS LIKEHOODS BASEADOS NO PARAMETROS DO TREINO ACIMA. OBTENHO ENTÃO LIKEHOODS DA CLASSE POSITIVA E NEGATIVA.
+- NORMALIZO AMBOS LIKEHOODS TANTO DA CLASSE POSITIVA QUANTO DA CLASSE NEGATIVA
+- COMPARO AS DUAS, A MAIOR SERA A CLASSE 1 (POSITIVA), A MENOR, A CLASSE 0 (NEGATIVA)
+- USO ENTÃO O GROUND TRUTH DE TESTE PARA CALCULAR O F1 SCORE E COMPARO COM O BENCHMARK, QUE SERIA USANDO SOFTMAX, THRESHOLD = 0,5 E ETC..
+- ESSES SÃO OS PASSOS QUE ESTOU SEGUINDO
+
+PROXIMOS PASSOS:
+- TESTAR UM EXEMPLO SIMPLES COM OS PASSOS QUE ESTOU APLICANDO NO MISAGRO
+- TENTAR NO MISAGRO APENAS UMA CLASSE AO INVES DE 2 PARA VER SE TEM RESULTADOS MELHORES
+
+----------------------------------------------------------------------------------
+
+NÃO FUNCIONOU:
+- Implementar KDE não deu certo. O programa nem roda quando chegar na função de calcular os valores.
+- O GMM apresentou valores iguais a zero quando usado no teste com e sem CRF
+
+TESTAR:
+- Retirar unary = unary_from_softmax(pred) e testar os logits direto
+- Usar o GMM no treino do modelo para ver se faz diferença.
+- Fazer logs para ver os resultados do teste, para saber se tem algo errado no CRF
+- Se não melhorar, usar uma versão antiga do código e adaptar para as novas coisas.
+- Diversificar o dataset para ver se os resultados melhoram
+
+----------------------------------------------------------------------------------------
+
+CRF
+
+ESTA FUNCIONANDO:
+- Usar numa lib para trabalhar com o CRF, em que agora posso treinar o modelo com dados de treino
+e testar depois com dados de teste
+
+TESTAR:
+- Novas modalidades
+- Melhorar o dataset para ver o comportamento
+
+
+
+
+
+
+
+
+
+ 

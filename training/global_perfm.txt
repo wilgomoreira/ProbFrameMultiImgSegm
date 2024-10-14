@@ -1,0 +1,10 @@
+
+
+| - SAVED MODEL - RGB - Model segnet - Acc: 95.25%. Prec: 84.73%. Recall: 86.18%. F1: 85.37%. IoU: 74.84%
+| - SAVED MODEL - RGB - Model deeplab - Acc: 94.94%. Prec: 82.51%. Recall: 86.86%. F1: 84.42%. IoU: 73.34%
+| - SAVED MODEL - NDVI - Model segnet - Acc: 93.74%. Prec: 83.24%. Recall: 81.51%. F1: 82.15%. IoU: 70.25%
+| - SAVED MODEL - NDVI - Model deeplab - Acc: 93.81%. Prec: 80.46%. Recall: 82.01%. F1: 80.97%. IoU: 68.35%
+| - SAVED MODEL - GNDVI - Model segnet - Acc: 93.74%. Prec: 80.81%. Recall: 82.16%. F1: 81.19%. IoU: 69.05%
+| - SAVED MODEL - GNDVI - Model deeplab - Acc: 93.77%. Prec: 79.01%. Recall: 82.62%. F1: 80.46%. IoU: 67.72%
+| - SAVED MODEL - EARLY_FUSION - Model segnet - Acc: 95.03%. Prec: 84.74%. Recall: 85.61%. F1: 85.01%. IoU: 74.4%
+| - SAVED MODEL - EARLY_FUSION - Model deeplab - Acc: 94.6%. Prec: 82.79%. Recall: 85.01%. F1: 83.69%. IoU: 72.25%
