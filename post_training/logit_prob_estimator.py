@@ -75,7 +75,7 @@ def apply_kde(logits_test, logits_train):
 
     logits_pos_train, logits_neg_train = logits_train
 
-    likelyhood = kde_evaluate(kde, logits_pos_train, logits_neg_train, logits_test)
+    likelyhood = kde_cumulative(kde, logits_pos_train, logits_neg_train, logits_test)
 
     # Reshape para a forma original das imagens de teste
     likelyhood_matrix = likelyhood.reshape(logits_test.shape[0], logits_test.shape[1], logits_test.shape[2], logits_test.shape[3])
@@ -218,19 +218,25 @@ def linear_interpolation(x_values, y_values, x_test, add_smooth, device):
 
 def evaluate_performance_likehood(logits_test, probs, labels_test):
     logits_test = util.sigmoid(logits_test)
-   # logits_test = util.thresholding(logits_test)
-    #f1s_soft, _ = util.perfomance_metrics(logits_test, labels_test)
-    #roc_auc_soft = util.calculate_roc_auc(logits_test, labels_test)
-    #prec_auc_soft = util.calculate_precision_recall_ap(logits_test, labels_test)
-    ece_soft = calculate_ece(logits_test, labels_test)
-    
-    #probs = util.thresholding(probs)
-    #f1s_prob, _ = util.perfomance_metrics(probs, labels_test)
-    #roc_auc_prob = util.calculate_roc_auc(probs, labels_test)
-    prec_auc_prob = util.calculate_precision_recall_ap(probs, labels_test)
-    ece_prob = calculate_ece(probs, labels_test)
+   
+    match util.PERF_METRIC: 
 
-    return round(ece_soft*100, 2), round(ece_prob*100, 2)
+        case "F1_SCORE":
+            logits_test = util.thresholding(logits_test)
+            metric_soft, _ = util.perfomance_metrics(logits_test, labels_test)
+
+            probs = util.thresholding(probs)
+            metric_prob, _ = util.perfomance_metrics(probs, labels_test)
+
+        case "AVER_PREC":
+            metric_soft = util.calculate_roc_auc(logits_test, labels_test)
+            metric_prob = util.calculate_roc_auc(probs, labels_test)
+
+        case "ECE":
+            metric_soft = calculate_ece(logits_test, labels_test)
+            metric_prob = calculate_ece(probs, labels_test)    
+        
+    return round(metric_soft*100, 2), round(metric_prob*100, 2)
    
 def histogram(logits_train, logits_test, name_of_chart):
     train_pos, train_neg = logits_train
